@@ -1,0 +1,13 @@
+server:
+  port: 8885
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8881/eureka,http://localhost:8882/eureka
+#分别指向peer1，peer2进行注册
+spring:
+  application:
+    name: Eureka-Ribbon-Consumer-Test
+#使用ribbon实现负载均衡的时候，所有服务名称不能用下划线，换成中划线。

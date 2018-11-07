@@ -1,0 +1,15 @@
+server:
+  port: 8882
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+#单注册中心开启    register-with-eureka: false
+#单注册中心开启    fetch-registry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8881/eureka
+#多注册中心开启 指向peer1进行注册
+spring:
+  application:
+    name: Eureka-Service2-Test

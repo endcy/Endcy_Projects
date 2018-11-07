@@ -1,0 +1,15 @@
+server:
+  port: 8884
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8881/eureka,http://localhost:8882/eureka
+#分别指向peer1，peer2进行注册
+    healthcheck:
+      enabled: true
+#开启了actuator端点健康检查 http://localhost:8884/health即可访问
+spring:
+  application:
+    name: Eureka-Client-Test

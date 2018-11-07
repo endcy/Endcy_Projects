@@ -1,0 +1,41 @@
+
+#启动的时候就把资源文件下载下来，默认是首次请求才下载
+#spring.cloud.config.server.git.clone-on-start=true
+#spring.cloud.config.server.git.username=HAGA_HERO
+#spring.cloud.config.server.git.password=111111
+
+#          uri: https://gitlab.xxx.com/xxxxx/xxxxx.git     # 配置gitlab仓库的地址，注意，此处必须以.git结尾
+#          search-paths: /config-repo # gitlab仓库地址下的相对地址，可以配置多个，用,分割。
+#          username: your username                                             # gitlab仓库的账号
+#          password: your password
+
+#加密因子，加密解密--对称加密
+#encrypt.key=foo
+
+
+#security.basic.enabled=true  安全认证
+#security.user.name=HERO
+#security.user.password=HERO
+
+eureka.client.serviceUrl.defaultZone=http://localhost:2222/eureka/
+
+spring:
+  application:
+    name: config-server
+    index: ${random.long}
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/endcy/Endcy_Config
+          search-paths: dev,prd
+server:
+  port: 8888
+
+#防止验证401
+management:
+  security:
+    enabled: false
+eureka:
+  instance:
+    prefer-ip-address: true

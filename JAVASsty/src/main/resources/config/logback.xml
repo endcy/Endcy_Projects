@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <jmxConfigurator/>
+    <!-- 鎺у埗鍙拌緭鍑烘棩蹇?-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </layout>
+    </appender>
+    <!-- 鏂囦欢杈撳嚭鏃ュ織 (鏂囦欢澶у皬绛栫暐杩涜鏂囦欢杈撳嚭锛岃秴杩囨寚瀹氬ぇ灏忓鏂囦欢澶囦唤)-->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>D:/logbackLOG/LogbackDemo.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>xxxx.log.%i.bak</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>12</MaxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>100MB</MaxFileSize>
+        </triggeringPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+    <!--杩欓噷鎸囧畾logger name 鏄负jmx璁剧疆鏃ュ織绾у埆鍋氶摵鍨?-->
+    <!--<logger name="com.xxx.xxx">-->
+        <!--<level value="INFO"/>-->
+        <!--<appender-ref ref="STDOUT"/>-->
+        <!--<appender-ref ref="FILE"/>-->
+    <!--</logger>-->
+    <root level="DEBUG">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>  

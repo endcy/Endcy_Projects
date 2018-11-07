@@ -1,0 +1,47 @@
+其实也可以不需要多个jar或者工程来启动多可用的服务治理中心，只需要定义多个启动的profiles配置文件，然后在启动时指定启动的配置文件即可，例如：
+服务治理中心生产的jar文件为：eureka-server-1.0.0.jar，配置两个文件分别为application-peer1.properties，application-peer2.properties，内容分别为：
+application-peer1.properties:
+server:
+  port: 8881
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+spring:
+  application:
+    name: Eureka_Service_Test
+
+application-peer2.properties:
+server:
+  port: 8882
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+spring:
+  application:
+    name: Eureka_Service2_Test
+
+启动方式为，执行命令 java -jar eureka-server-1.0.0.jar --spring.profiles.active=peer1
+                     java -jar eureka-server-1.0.0.jar --spring.profiles.active=peer2
+末尾命令的peer1和peer2分别指代两个配置文件，和启动dev和prod文件一样会自动匹配到application.{profiles}.properties文件（yml文件）。
+那么每个注册发现的Client配置应该修改配置：
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8881/eureka,http://localhost:8881/eureka
+
+
+第二种多可用方式为，分别打成使用各自的配置文件来进行jar的服务启动。

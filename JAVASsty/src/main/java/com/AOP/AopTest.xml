@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/tx ">
+
+    <context:component-scan base-package="com.AOP.impl"/>
+    <bean id="userDaoImpl" class="com.AOP.impl.UserDAOImpl"/>
+    <bean id="aopPrintTips" class="com.AOP.SpringAOP.PrintTipsBySpringAOP"/>
+    <bean id="aopPrintTips2" class="com.AOP.SpringAOP.PrintTipsBySpringAop2"/>
+    <!-- 自动选择代理的方式 动态代理或cglib实现 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <aop:config>
+        <aop:pointcut id="printTips" expression="execution( * com.AOP.impl.UserDAOImpl.*(..))"/>
+        <aop:aspect id="printInMethod" order="1" ref="aopPrintTips">
+            <aop:around method="printItTips" pointcut-ref="printTips"/>
+            <!--<aop:before method="printItTips" pointcut-ref="printTips"/>-->
+            <!--<aop:after-returning method="printItTips" pointcut-ref="printTips"/>-->
+            <!--<aop:after-throwing method="printItTips" pointcut-ref="printTips"/>-->
+            <!--<aop:after method="printItTips" pointcut-ref="printTips"/>-->
+        </aop:aspect>
+        <aop:aspect id="printInMethod2" order="2" ref="aopPrintTips2">
+            <aop:before method="printTipsBefore" pointcut-ref="printTips"/>
+            <aop:after-returning method="printTipsAfterReturning" returning="result" pointcut-ref="printTips"/>
+            <aop:after-throwing method="printTipsThrowing" throwing="ex" pointcut-ref="printTips"/>
+            <aop:after method="printTipsAfter" pointcut-ref="printTips"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
