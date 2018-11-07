@@ -1,1 +1,1 @@
-# Endcy_Config
+# All projects for study
