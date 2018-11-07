@@ -7,7 +7,7 @@
         <groupId>endcy.mvnutil</groupId>
         <artifactId>parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../ideafile/parent</relativePath>
+        <relativePath>../parent</relativePath>
     </parent>
 
     <groupId>cn.endcy.items</groupId>
@@ -15,7 +15,6 @@
     <version>1.0.0</version>
     <name>Endcy :: Module :: JAVA_DEMO</name>
     <packaging>jar</packaging>
-
     <dependencies>
         <!-- LOGGING begin -->
         <dependency>
@@ -159,8 +158,8 @@
                 <version>3.3</version>
                 <configuration>
                     <encoding>${plugin.encoding}</encoding>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <showWarnings>false</showWarnings>
                     <skip>true</skip>
                 </configuration>
