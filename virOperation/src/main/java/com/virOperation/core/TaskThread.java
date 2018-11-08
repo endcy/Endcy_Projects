@@ -24,7 +24,8 @@ public class TaskThread {
     private ExecutorService getThread() {
         service = Executors.newScheduledThreadPool(1);
         long intervalTime = Long.valueOf(PropertiesUtil.properties.getProperty(PropertiesUtil.intervaTime));
-        service.schedule(new operaThread(), intervalTime, TimeUnit.MINUTES);
+//        service.schedule(new operaThread(), intervalTime, TimeUnit.MINUTES);  //only delay schedule once
+        service.scheduleWithFixedDelay(new operaThread(), 0, intervalTime, TimeUnit.MINUTES);
         return service;
     }
 
