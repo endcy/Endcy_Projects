@@ -1,1 +1,1 @@
-# All projects for study
+# All projects for study.
