@@ -18,7 +18,8 @@ public class MoveMouse {
         int mx = (int) p.getX();
         int my = (int) p.getY();
         myRobot.mouseMove(mx + 100, my);
-//        myRobot.mouseMove(mx, my);
+        //坐标复原
+        myRobot.mouseMove(mx, my);
     }
 
 }
