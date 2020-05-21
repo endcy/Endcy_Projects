@@ -22,15 +22,19 @@ public class ConsumerDemo {
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(props);
         //发送数据 发送数据需要，订阅下要消费的topic。	test
         kafkaConsumer.subscribe(Arrays.asList("test"));
-        long s = System.currentTimeMillis();
-
+        long index = 0;
+        long s = 0;
         while (true) {
             ConsumerRecords<String, String> consumerRecords = kafkaConsumer.poll(10);// jdk queue offer插入、poll获取元素。 blockingqueue put插入原生， take获取元素
-            if (consumerRecords.isEmpty()) {
-                System.out.println("cost:" + (System.currentTimeMillis() - s));
-            }
             for (ConsumerRecord<String, String> record : consumerRecords) {
-                System.out.println("get：" + record.value());
+                if (index == 0) {
+                    s = System.currentTimeMillis();
+                }
+                index++;
+//                System.out.println("get：" + record.value());
+                if (index > 999999) {
+                    System.out.println("consume 100W cost(ms): " + (System.currentTimeMillis() - s));
+                }
             }
 
         }

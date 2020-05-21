@@ -27,8 +27,8 @@ public class ProducerDemo {
         // props.put("partitioner.class","com.paic.kafka.MyPartitioner");
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(props);
-
-        for (long i = 0; i < 100000L; i++) {
+        long s = System.currentTimeMillis();
+        for (long i = 0; i < 1000000L; i++) {
             //第一种分区策略，既没有指定数据key，也没有指定分区号，直接使用轮询的方式进行数据分区策略
             //ProducerRecord<String, String> producerRecord = new ProducerRecord<>("test", "这是第" + i + "条message");
 
@@ -43,7 +43,7 @@ public class ProducerDemo {
 
             producer.send(producerRecord);
         }
-
+        System.out.println("produce 100W cost(ms): " + (System.currentTimeMillis() - s));
         producer.close();
 
     }
