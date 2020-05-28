@@ -1,0 +1,65 @@
+
+1 启动zookeeper
+title zookeeper-server
+bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+
+2 启动broker9092
+title kafka-server-id0-9092-kafka-logs
+bin\windows\kafka-server-start.bat config\server.properties
+
+2.1 启动集群之一broker9093
+title kafka-server-id1-9093-kafka-logs1
+bin\windows\kafka-server-start.bat config\server-1.properties
+
+2.2 启动集群之一broker9094
+title kafka-server-id2-9094-kafka-logs2
+bin\windows\kafka-server-start.bat config\server-2.properties
+
+3 创建topic  replication-factor为备份节点总数 partitions为分区数
+title kafka-topics-test
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+
+3.1 创建topic 2+1双备份1分区
+title kafka-topic-topicX-3factor
+bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic topicX
+
+3.2 无法删除只能标记无效
+bin\kafka-topics --delete --zookeeper localhost:2181 --topic test
+
+3.3 topic列表
+title kafka-topics-list
+bin\windows\kafka-topics.bat --zookeeper localhost:2181 --list
+
+3.4 topic详情
+title kafka-topic-monitor-test
+bin\windows\kafka-topics.bat --describe --zookeeper localhost:2181 --topic test
+
+4 查看各分区节点消费情况
+bin\windows\kafka-run-class.bat kafka.tools.GetOffsetShell --broker-list localhost:9092 -topic test --time -1
+
+5 消费组详情
+bin\windows\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --describe --group test
+
+5.1 消费组更新到当前group最初的offset位置
+bin\windows\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --group test --reset-offsets --all-topics --to-earliest --execute
+
+5.2 消费组更新到指定的offset位置
+bin\windows\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --group test --reset-offsets --all-topics --to-offset 500000 --execute
+
+5.3 消费组更新到当前offset位置（解决offset的异常）
+bin\windows\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --group test --reset-offsets --all-topics --to-current --execute
+
+5.4 消费组offset位置按设置的值进行位移
+bin\windows\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --group test --reset-offsets --all-topics --shift-by -100000 --execute
+
+5.5 消费组offset设置到指定时刻开始
+bin\windows\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --group test --reset-offsets --all-topics --to-datetime 2019-08-04T14:30:00.000
+
+6 生产者
+title kafka-producer2test
+bin\windows\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic test
+testMsg
+
+7 消费者
+title kafka-consumer4test-group1
+bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic test --from-beginning --consumer-property group.id=group1

@@ -1,5 +1,6 @@
 package com.paic.kafka;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
@@ -9,11 +10,12 @@ public class ProducerDemo {
     public static void produce() {
         Properties props = new Properties();
         //指定kafka的服务器的地址
+//        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put("bootstrap.servers", "localhost:9092");
         //消息的确认机制
         props.put("acks", "all");
         //重试机制
-        props.put("retries", 0);
+        props.put("retries", 1);
         //批量发送的大小
         props.put("batch.size", 16384);
         //消息的延迟

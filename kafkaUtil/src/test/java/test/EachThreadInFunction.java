@@ -7,17 +7,19 @@ public class EachThreadInFunction {
 
     public static void main(String[] args) {
         //消费1
-        new ThreadRunning(){
-            @Override
-            void startFunction() {
-                ConsumerDemo.consume();
-            }
-        };
+        for (int i = 0; i < ConsumerDemo.consumers; i++) {
+            new ThreadRunning() {
+                @Override
+                void startFunction() {
+                    ConsumerDemo.consume();
+                }
+            };
+        }
         //生产
-        new ThreadRunning(){
+        new ThreadRunning() {
             @Override
             void startFunction() {
-                ProducerDemo.produce();
+//                ProducerDemo.produce();
             }
         };
 
