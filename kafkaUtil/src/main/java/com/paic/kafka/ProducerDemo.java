@@ -10,6 +10,7 @@ public class ProducerDemo {
     public static void produce() {
         Properties props = new Properties();
         //指定kafka的服务器的地址
+        //只需要保证启动时设置的一个节点正常连接即可，后续变更或宕机不影响集群其它机器使用
 //        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put("bootstrap.servers", "localhost:9092");
         //消息的确认机制

@@ -1,6 +1,5 @@
 package com.paic.kafka;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -17,6 +16,7 @@ public class ConsumerDemo {
     public static void consume() {
         //连接集群
         Properties props = new Properties();
+        //只需要保证启动时设置的一个节点正常连接即可，后续变更或宕机不影响集群其它机器使用
         props.put("bootstrap.servers", "localhost:9092");
         //消费组
         props.put("group.id", "test");
@@ -31,10 +31,15 @@ public class ConsumerDemo {
         kafkaConsumer.subscribe(Arrays.asList("test"));
 
         //******开始重置 从所有分区的所有偏移量开始消费
-        kafkaConsumer.poll(0);
-        int offset = 10;
-        for (TopicPartition partition : kafkaConsumer.assignment()) {
-            kafkaConsumer.seek(partition, offset);
+        boolean getLog = true;
+        boolean reStart = true;
+        if (reStart) {
+            kafkaConsumer.poll(0);
+            int offset = 0;
+            for (TopicPartition partition : kafkaConsumer.assignment()) {
+                kafkaConsumer.seek(partition, offset);
+            }
+//            kafkaConsumer.poll(0); //if seek not useful
         }
         //******如上陪之后可重复消费
         long index = 0;
@@ -49,6 +54,9 @@ public class ConsumerDemo {
                     }
                 }
                 index++;
+                if (index % 1000 == 0) {
+                    System.out.println("consume get key " + record.key());
+                }
                 if (record.key().equals("mykey999999")) {
                     if (timeRecords.get(0) != 0) {
                         System.out.println("consume 100W cost(ms):" + (System.currentTimeMillis() - timeRecords.get(0)));
