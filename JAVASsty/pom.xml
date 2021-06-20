@@ -106,8 +106,8 @@
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
-            <artifactId>com.springsource.org.aspectj.weaver</artifactId>
-            <version>1.6.8.RELEASE</version>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.6.8</version>
         </dependency>
         <dependency>
             <groupId>antlr</groupId>
